@@ -14,4 +14,5 @@
 
 ## Changes
 
+- Set up as own repo
 - Visually seperate days in Logbook
