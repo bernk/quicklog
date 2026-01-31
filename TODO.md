@@ -14,6 +14,7 @@
 
 ## Changes
 
+- Default both settings to disabled
 - Use unique colors for location buttons
 - Add delete last entry button
 - Visually seperate days in Logbook
