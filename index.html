@@ -15,6 +15,7 @@
     <button class="active" data-screen="main" aria-label="Main screen - log arrivals">Log</button>
     <button data-screen="manage" aria-label="Manage locations">Quick Logs</button>
     <button data-screen="log" aria-label="View arrival history">Logbook</button>
+    <button data-screen="settings" aria-label="Settings">Settings</button>
   </nav>
 
   <main>
@@ -55,7 +56,27 @@
         <p>Nothing logged yet.</p>
       </div>
     </section>
-  
+
+    <!-- ============ Settings Screen ============ -->
+    <section id="settings-screen" class="screen" aria-label="Settings">
+      <div class="settings-list">
+        <div class="settings-item">
+          <label for="setting-split-buttons">
+            <span class="settings-label">Split Arrive/Depart buttons</span>
+            <span class="settings-description">Show separate buttons for arrivals and departures</span>
+          </label>
+          <input type="checkbox" id="setting-split-buttons" class="settings-toggle">
+        </div>
+        <div class="settings-item">
+          <label for="setting-pax-count">
+            <span class="settings-label">Ask for passenger count</span>
+            <span class="settings-description">Prompt for number of passengers when logging</span>
+          </label>
+          <input type="checkbox" id="setting-pax-count" class="settings-toggle">
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- ============ UI Extras ============ -->  
@@ -68,6 +89,17 @@
       <input type="text" id="manual-input" placeholder="Enter location" enterkeyhint="done" maxlength="50">
       <div class="manual-card-actions">
         <button class="manual-card-submit" id="manual-submit-btn">Log and Save</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pax-card-overlay" id="pax-card-overlay">
+    <div class="pax-card">
+      <h2 id="pax-card-heading">Passenger Count</h2>
+      <input type="number" id="pax-input" placeholder="0" enterkeyhint="done" pattern="[0-9]*" min="0" max="999">
+      <div class="pax-card-actions">
+        <button class="pax-card-cancel" id="pax-cancel-btn">Cancel</button>
+        <button class="pax-card-submit" id="pax-submit-btn">Log</button>
       </div>
     </div>
   </div>

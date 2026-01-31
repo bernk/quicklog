@@ -1,11 +1,17 @@
 // ============ State ============
 const STORAGE_KEYS = {
   locations: 'loclog_locations',
-  log: 'loclog_log'
+  log: 'loclog_log',
+  settings: 'loclog_settings'
 };
 
 let locations = [];
 let locationLog = [];
+let settings = {
+  SPLIT_LOG_BUTTONS: true,
+  ASK_PAX_COUNT: false
+};
+let pendingLog = null; // Stores pending log when waiting for pax count
 
 // ============ Storage ============
 function loadLocations() {
@@ -44,6 +50,43 @@ function saveLog() {
   }
 }
 
+// ============ Settings ============
+function loadSettings() {
+  try {
+    const data = localStorage.getItem(STORAGE_KEYS.settings);
+    if (data) {
+      const saved = JSON.parse(data);
+      settings = { ...settings, ...saved };
+    }
+  } catch (e) {
+    console.error('Failed to load settings:', e);
+  }
+}
+
+function saveSettings() {
+  try {
+    localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
+  } catch (e) {
+    console.error('Failed to save settings:', e);
+  }
+}
+
+function renderSettingsScreen() {
+  const splitToggle = document.getElementById('setting-split-buttons');
+  splitToggle.checked = settings.SPLIT_LOG_BUTTONS;
+
+  const paxToggle = document.getElementById('setting-pax-count');
+  paxToggle.checked = settings.ASK_PAX_COUNT;
+}
+
+function toggleSetting(key, value) {
+  settings[key] = value;
+  saveSettings();
+  if (key === 'SPLIT_LOG_BUTTONS') {
+    renderMainScreen();
+  }
+}
+
 // ============ Navigation ============
 function showScreen(screenId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -56,6 +99,7 @@ function showScreen(screenId) {
   if (screenId === 'main') renderMainScreen();
   if (screenId === 'manage') renderManageScreen();
   if (screenId === 'log') renderLogScreen();
+  if (screenId === 'settings') renderSettingsScreen();
 }
 
 // ============ Log Screen ============
@@ -73,16 +117,28 @@ function renderMainScreen() {
     </button>
   `;
 
-  const locationButtons = locations.map((loc, i) => `
-    <button class="location-btn" data-index="${i}" aria-label="Log arrival at ${loc}">
-      ${escapeHtml(loc)}
-    </button>
-  `).join('');
+  let locationButtons = '';
+
+  if (settings.SPLIT_LOG_BUTTONS) {
+    locationButtons = locations.map((loc, i) => `
+      <div class="location-btn-split" data-index="${i}">
+        <span class="split-label">${escapeHtml(loc)}</span>
+        <button class="split-left" data-action="Arrive" aria-label="Arrive at ${loc}"></button>
+        <button class="split-right" data-action="Depart" aria-label="Depart from ${loc}"></button>
+      </div>
+    `).join('');
+  } else {
+    locationButtons = locations.map((loc, i) => `
+      <button class="location-btn" data-index="${i}" aria-label="Log at ${loc}">
+        ${escapeHtml(loc)}
+      </button>
+    `).join('');
+  }
 
   grid.innerHTML = manualButton + locationButtons;
 }
 
-function logLocation(locationIndex) {
+function logLocation(locationIndex, action) {
   const location = locations[locationIndex];
   if (!location) return;
 
@@ -99,10 +155,25 @@ function logLocation(locationIndex) {
   const displayTime = `${hours}:${minutes}`;
   const roundedTime = roundTime(now.getHours(),now.getMinutes());
 
+  const fullName = action ? `${action} ${location}` : location;
+
+  // If pax count setting is enabled, show popup instead of logging immediately
+  if (settings.ASK_PAX_COUNT) {
+    pendingLog = {
+      date: yyyymmdd,
+      displayTime,
+      roundedTime,
+      fullName,
+      action
+    };
+    showPaxInput(action);
+    return;
+  }
+
   const entry = {
-    locationDate: yyyymmdd, 
-    locationTime: {displayTime, roundedTime}, 
-    locationName: location
+    locationDate: yyyymmdd,
+    locationTime: {displayTime, roundedTime},
+    locationName: fullName
   };
 
   console.log(entry);
@@ -110,7 +181,7 @@ function logLocation(locationIndex) {
   locationLog.push(entry); // add to end of locationLog array
   saveLog();
 
-  showToast(`Logged: ${location}`);
+  showToast(`Logged: ${fullName}`);
 }
 
 function logManualEntry(name) {
@@ -153,6 +224,52 @@ function showManualInput() {
 function hideManualInput() {
   const overlay = document.getElementById('manual-card-overlay');
   overlay.classList.remove('show');
+}
+
+// ============ Passenger Count Popup ============
+function showPaxInput(action) {
+  const overlay = document.getElementById('pax-card-overlay');
+  const input = document.getElementById('pax-input');
+  const heading = document.getElementById('pax-card-heading');
+
+  // Set heading based on action
+  if (action === 'Depart') {
+    heading.textContent = 'Passengers On';
+  } else if (action === 'Arrive') {
+    heading.textContent = 'Passengers Off';
+  } else {
+    heading.textContent = 'Passenger Count';
+  }
+
+  overlay.classList.add('show');
+  input.value = '';
+  input.focus();
+}
+
+function hidePaxInput() {
+  const overlay = document.getElementById('pax-card-overlay');
+  overlay.classList.remove('show');
+  pendingLog = null;
+}
+
+function completePaxLog(paxCount) {
+  if (!pendingLog) return;
+
+  const count = parseInt(paxCount, 10) || 0;
+  const prefix = pendingLog.action === 'Depart' ? '+' : (pendingLog.action === 'Arrive' ? '-' : '');
+  const paxSuffix = count > 0 ? ` ${prefix}${count}` : '';
+
+  const entry = {
+    locationDate: pendingLog.date,
+    locationTime: { displayTime: pendingLog.displayTime, roundedTime: pendingLog.roundedTime },
+    locationName: pendingLog.fullName + paxSuffix
+  };
+
+  locationLog.push(entry);
+  saveLog();
+
+  showToast(`Logged: ${entry.locationName}`);
+  pendingLog = null;
 }
 
 // ============ Quick Logs Screen ============
@@ -305,10 +422,20 @@ function initEventListeners() {
       return;
     }
 
-    // Handle location buttons
+    // Handle split location buttons (Arrive/Depart)
+    const splitBtn = e.target.closest('.split-left, .split-right');
+    if (splitBtn) {
+      const container = splitBtn.closest('.location-btn-split');
+      const index = parseInt(container.dataset.index, 10);
+      const action = splitBtn.dataset.action;
+      logLocation(index, action);
+      return;
+    }
+
+    // Handle non-split location buttons
     const btn = e.target.closest('.location-btn');
     if (btn && btn.dataset.index !== undefined) {
-      logLocation(parseInt(btn.dataset.index, 10));
+      logLocation(parseInt(btn.dataset.index, 10), null);
     }
   });
 
@@ -372,12 +499,48 @@ function initEventListeners() {
   // Log screen - clear
   document.getElementById('clear-log-btn').addEventListener('click', clearLog);
   document.getElementById('clear-last-log-btn').addEventListener('click', clearLastLog);
+
+  // Settings screen - toggles
+  document.getElementById('setting-split-buttons').addEventListener('change', (e) => {
+    toggleSetting('SPLIT_LOG_BUTTONS', e.target.checked);
+  });
+
+  document.getElementById('setting-pax-count').addEventListener('change', (e) => {
+    toggleSetting('ASK_PAX_COUNT', e.target.checked);
+  });
+
+  // Passenger count popup
+  document.getElementById('pax-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      completePaxLog(e.target.value);
+      hidePaxInput();
+    } else if (e.key === 'Escape') {
+      hidePaxInput();
+    }
+  });
+
+  document.getElementById('pax-submit-btn').addEventListener('click', () => {
+    const paxValue = document.getElementById('pax-input').value;
+    completePaxLog(paxValue);
+    hidePaxInput();
+  });
+
+  document.getElementById('pax-cancel-btn').addEventListener('click', () => {
+    hidePaxInput();
+  });
+
+  document.getElementById('pax-card-overlay').addEventListener('click', (e) => {
+    if (e.target.matches('.pax-card-overlay')) {
+      hidePaxInput();
+    }
+  });
 }
 
 // ============ Init ============
 function init() {
   loadLocations();
   loadLog();
+  loadSettings();
   initEventListeners();
   renderMainScreen();
 }

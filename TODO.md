@@ -14,5 +14,6 @@
 
 ## Changes
 
-- Set up as own repo
+- Use unique colors for location buttons
+- Add delete last entry button
 - Visually seperate days in Logbook

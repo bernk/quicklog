@@ -11,6 +11,7 @@
     --text-light: #666666;
     --border: #dddddd;
     --success: #28a745;
+    --attention: rgb(255, 221, 0);
     --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --merc-accent: #ED6431; 
     --merc-dark: #2e4256;
@@ -121,6 +122,7 @@ main {
     transition: all 0.15s;
     text-align: center;
     word-break: break-word;
+    user-select: none;
 }
 
 .location-btn:hover {
@@ -130,6 +132,71 @@ main {
 
 .location-btn:active {
     transform: scale(0.98);
+}
+
+/* Split location buttons (Arrive/Depart) */
+.location-btn-split {
+    display: flex;
+    position: relative;
+    min-height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--btn-primary);
+    user-select: none;
+}
+
+.location-btn-split .split-left,
+.location-btn-split .split-right {
+    flex: 1;
+    padding: 0.75rem 0.5rem;
+    font-size: 0.5rem;
+    font-family: var(--font);
+    color: white;
+    background: transparent; 
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.location-btn-split .split-right {
+    background: rgba(0, 0, 0, .1);
+}
+
+.location-btn-split .split-left:hover,
+.location-btn-split .split-right:hover {
+    /* border-color: var(--merc-accent);
+    border-width: 4px 4px 4px 0;
+    border-style: solid;
+    border-radius: 0 12px 12px 0; 
+    background: #007BFF; */
+/* background: linear-gradient(90deg, rgba(0, 123, 255, 1) 0%, rgba(237, 100, 49, 1) 100%); */
+    background: rgba(0, 0, 0, .3);
+}
+
+.location-btn-split .split-left:hover {
+    /* border-color: var(--merc-accent);
+    border-width: 4px 0 4px 4px;
+    border-style: solid;
+    border-radius: 12px 0 0 12px;  */
+    /* background: linear-gradient(270deg, rgba(0, 123, 255, 1) 0%, rgba(237, 100, 49, 1) 100%); */
+}
+
+.location-btn-split .split-label {
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    word-break: break-word;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    text-align: center;
+    pointer-events: none;
+    padding: 1em;
+    box-sizing: border-box;
+    user-select: none;
 }
 
 /* Manual entry button */
@@ -217,6 +284,86 @@ main {
 }
 
 .manual-card-submit:hover {
+    background: var(--btn-primary-hover);
+}
+
+/* Passenger count card overlay */
+.pax-card-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+}
+
+.pax-card-overlay.show {
+    display: flex;
+}
+
+.pax-card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.pax-card h2 {
+    margin: 0 0 1rem 0;
+    font-size: 1.25rem;
+    color: var(--text);
+}
+
+.pax-card input {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-family: var(--font);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.pax-card input:focus {
+    outline: none;
+    border-color: var(--btn-primary);
+}
+
+.pax-card-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.pax-card-actions button {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-family: var(--font);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.pax-card-cancel {
+    background: var(--bg);
+    color: var(--text);
+}
+
+.pax-card-cancel:hover {
+    background: var(--border);
+}
+
+.pax-card-submit {
+    background: var(--btn-primary);
+    color: white;
+}
+
+.pax-card-submit:hover {
     background: var(--btn-primary-hover);
 }
 
@@ -392,6 +539,76 @@ main {
 
 .log-list .log-list-entry:last-child {
     border-bottom: none;
+}
+
+/* Settings screen */
+.settings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.settings-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: var(--bg-card);
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.settings-item label {
+    flex: 1;
+    cursor: pointer;
+}
+
+.settings-label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.settings-description {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 0.25rem;
+}
+
+.settings-toggle {
+    width: 50px;
+    height: 28px;
+    appearance: none;
+    background: var(--border);
+    border-radius: 14px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+
+.settings-toggle::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    transition: transform 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.settings-toggle:checked {
+    background: var(--btn-primary);
+}
+
+.settings-toggle:checked::before {
+    transform: translateX(22px);
 }
 
 /* Toast notification */
