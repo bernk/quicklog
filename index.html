@@ -47,7 +47,7 @@
     <section id="log-screen" class="screen" aria-label="Arrival history">
       <div class="log-actions">
         <button class="clear-btn" id="clear-log-btn" aria-label="Clear all history">Clear All</button>
-        <button class="clear-btn" id="clear-last-log-btn" aria-label="Clear last entry">Clear Last</button>
+        <button class="clear-btn" id="clear-last-log-btn" aria-label="Clear last entry">Delete Last</button>
         <button class="export-btn" id="export-log-btn" aria-label="Copy logbook">Copy Logbook</button>
       </div>
       <div class="log-list" id="log-list">
@@ -94,7 +94,8 @@
       <h2>Manual Entry</h2>
       <input type="text" id="manual-input" placeholder="Enter location" enterkeyhint="done" maxlength="50">
       <div class="manual-card-actions">
-        <button class="manual-card-submit" id="manual-submit-btn">Log and Save</button>
+        <button class="manual-card-cancel" id="manual-cancel-btn">Cancel</button>
+        <button class="manual-card-submit" id="manual-submit-btn">Log</button>
       </div>
     </div>
   </div>
