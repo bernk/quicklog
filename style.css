@@ -511,6 +511,16 @@ main {
     color: white;
 }
 
+#log-screen .export-btn {
+    flex: 1;
+    background: var(--btn-primary);
+    color: white;
+}
+
+#log-screen .export-btn:hover {
+    background: var(--btn-primary-hover);
+}
+
 #log-screen .clear-btn:hover {
     background: var(--btn-danger-hover);
 }

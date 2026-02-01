@@ -358,7 +358,7 @@ function renderLogScreen() {
   `).join('');
 }
 
-function clearLog() {
+function clearLogbook() {
   if (locationLog.length === 0) return;
 
   if (confirm('Clear all logs?')) {
@@ -376,6 +376,17 @@ function clearLastLog() {
     saveLog();
     renderLogScreen();
   }
+}
+
+function exportLogbook() {
+  if (locationLog.length === 0) return;
+
+  const logbookString = locationLog.map(entry => 
+    `${entry.locationDate + ' ' + entry.locationTime.displayTime + ' ' + entry.locationName}\n`)
+    .join('');
+  
+  navigator.clipboard.writeText(logbookString);
+  showToast("Copied");
 }
 
 // ============ Toast ============
@@ -497,8 +508,10 @@ function initEventListeners() {
   });
 
   // Log screen - clear
-  document.getElementById('clear-log-btn').addEventListener('click', clearLog);
+  document.getElementById('clear-log-btn').addEventListener('click', clearLogbook);
   document.getElementById('clear-last-log-btn').addEventListener('click', clearLastLog);
+  document.getElementById('export-log-btn').addEventListener('click', exportLogbook);
+
 
   // Settings screen - toggles
   document.getElementById('setting-split-buttons').addEventListener('change', (e) => {
