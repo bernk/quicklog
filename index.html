@@ -33,7 +33,7 @@
     <!-- ============ Quick Logs Screen ============ -->
     <section id="manage-screen" class="screen" aria-label="Manage locations">
       <div class="add-form">
-        <input type="text" id="new-location-input" placeholder="New Quick Log name" enterkeyhint="done" aria-label="New location name" maxlength="50">
+        <input type="text" id="new-location-input" placeholder="New Quick Log name" enterkeyhint="done" autocapitalize="words" aria-label="New location name" maxlength="50">
       </div>
       <ul class="manage-list" id="manage-list">
         <!-- Location items rendered by JS -->
@@ -76,7 +76,12 @@
           <input type="checkbox" id="setting-pax-count" class="settings-toggle">
         </div>
       </div>
+      <footer id="credit">
+        Quick Log is being developed by Bernard Kowalski. If you have any feedback, feel free to <a href="mailto:me@bernardkowalski.com?subject=Quick Log">email me</a>.
+        <span id="version">v1.1.0</span>
+      </footer>
     </section>
+
 
   </main>
 

@@ -12,5 +12,6 @@
 
 ## Changes
 
-- Use unique colors for location buttons
+- Add credit and feedback link
 - Visually seperate days in Logbook
+- Use unique colors for log buttons?
