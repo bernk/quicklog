@@ -621,6 +621,22 @@ main {
     transform: translateX(22px);
 }
 
+#credit {
+    padding: 1rem;
+    color: var(--text-light);
+    font-size: .8rem;;
+}
+
+#version {
+    display: block;
+    padding: 1rem;
+    text-align: center;
+}
+
+#credit a {
+    color: var(--btn-primary);
+}
+
 /* Toast notification */
 .toast {
     position: fixed;
