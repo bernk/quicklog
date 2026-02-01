@@ -8,7 +8,7 @@ const STORAGE_KEYS = {
 let locations = [];
 let locationLog = [];
 let settings = {
-  SPLIT_LOG_BUTTONS: true,
+  SPLIT_LOG_BUTTONS: false,
   ASK_PAX_COUNT: false
 };
 let pendingLog = null; // Stores pending log when waiting for pax count
