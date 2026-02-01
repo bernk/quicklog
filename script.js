@@ -463,8 +463,12 @@ function initEventListeners() {
   document.getElementById('manual-submit-btn').addEventListener('click', () => {
     const manualEntryValue =  document.getElementById('manual-input').value;
     logManualEntry(manualEntryValue);
-    addLocation(manualEntryValue);
+    // addLocation(manualEntryValue);
     renderMainScreen();
+    hideManualInput();
+  });
+
+  document.getElementById('manual-cancel-btn').addEventListener('click', () => {
     hideManualInput();
   });
 
