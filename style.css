@@ -99,6 +99,24 @@ main {
     flex-direction: column;
 }
 
+#last-log {
+    /* padding: 0.75rem 0; */
+    /* border-bottom: 1px solid var(--border); */
+
+
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+
+    padding-bottom: 1rem;
+    font-family: monospace;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
 /* Location buttons (Main screen) */
 #main-screen .locations-grid {
     /* display: flex;

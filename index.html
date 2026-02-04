@@ -30,6 +30,9 @@
   <main>
     <!-- ============ Log Screen ============ -->
     <section id="main-screen" class="screen active" aria-label="Log arrivals">
+      <div id="last-log">
+        <!-- Last log rendered by JS -->
+      </div>
       <div class="locations-grid" id="locations-grid">
         <!-- Location buttons rendered by JS -->
       </div>
@@ -84,10 +87,17 @@
           </label>
           <input type="checkbox" id="setting-pax-count" class="settings-toggle">
         </div>
+        <div class="settings-item">
+          <label for="setting-last-log">
+            <span class="settings-label">Show last log</span>
+            <span class="settings-description">Show most recent entry on Log screen</span>
+          </label>
+          <input type="checkbox" id="setting-last-log" class="settings-toggle">
+        </div>
       </div>
       <footer id="credit">
         Quick Log is being developed by Bernard Kowalski. If you have any feedback, feel free to <a href="mailto:me@bernardkowalski.com?subject=Quick Log">email me</a>.
-        <span id="version">v1.1.1</span>
+        <span id="version">v1.2.0</span>
       </footer>
     </section>
 
