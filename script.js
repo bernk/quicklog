@@ -9,7 +9,8 @@ let locations = [];
 let locationLog = [];
 let settings = {
   SPLIT_LOG_BUTTONS: false,
-  ASK_PAX_COUNT: false
+  ASK_PAX_COUNT: false,
+  SHOW_LAST_LOG: true
 };
 let pendingLog = null; // Stores pending log when waiting for pax count
 
@@ -77,13 +78,16 @@ function renderSettingsScreen() {
 
   const paxToggle = document.getElementById('setting-pax-count');
   paxToggle.checked = settings.ASK_PAX_COUNT;
+
+  const lastLogToggle = document.getElementById('setting-last-log');
+  lastLogToggle.checked = settings.SHOW_LAST_LOG;
 }
 
 function toggleSetting(key, value) {
   settings[key] = value;
   saveSettings();
   if (key === 'SPLIT_LOG_BUTTONS') {
-    renderMainScreen();
+    // renderMainScreen();
   }
 }
 
@@ -104,6 +108,17 @@ function showScreen(screenId) {
 
 // ============ Log Screen ============
 function renderMainScreen() {
+  console.log('renderMainScreen()');
+
+  const log = document.getElementById('last-log');
+  log.textContent = '';
+  log.style.display = 'none';
+
+  if(settings.SHOW_LAST_LOG) {
+    log.textContent = getLastLog();
+    log.style.display = 'block';
+  }
+
   const grid = document.getElementById('locations-grid');
   const empty = document.getElementById('main-empty');
 
@@ -182,6 +197,8 @@ function logLocation(locationIndex, action) {
   saveLog();
 
   showToast(`Logged: ${fullName}`);
+
+  renderMainScreen();
 }
 
 function logManualEntry(name) {
@@ -224,6 +241,18 @@ function showManualInput() {
 function hideManualInput() {
   const overlay = document.getElementById('manual-card-overlay');
   overlay.classList.remove('show');
+}
+
+function getLastLog() {
+  if (locationLog.length === 0) {
+    return;
+  }
+  const lastLog = locationLog.at(-1);
+
+  // const element = document.getElementById('last-log');
+  // element.style.display = 'none';
+  // `${lastLog.locationDate} ${lastLog.locationTime.displayTime} ${lastLog.locationName}`;;
+  return `${lastLog.locationDate} ${lastLog.locationTime.displayTime} ${lastLog.locationName}`;
 }
 
 // ============ Passenger Count Popup ============
@@ -524,6 +553,10 @@ function initEventListeners() {
 
   document.getElementById('setting-pax-count').addEventListener('change', (e) => {
     toggleSetting('ASK_PAX_COUNT', e.target.checked);
+  });
+
+  document.getElementById('setting-last-log').addEventListener('change', (e) => {
+    toggleSetting('SHOW_LAST_LOG', e.target.checked);
   });
 
   // Passenger count popup

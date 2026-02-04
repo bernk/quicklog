@@ -30,6 +30,9 @@
   <main>
     <!-- ============ Log Screen ============ -->
     <section id="main-screen" class="screen active" aria-label="Log arrivals">
+      <div id="last-log">
+        <!-- Last log rendered by JS -->
+      </div>
       <div class="locations-grid" id="locations-grid">
         <!-- Location buttons rendered by JS -->
       </div>
@@ -83,6 +86,13 @@
             <span class="settings-description">Prompt for number of passengers when logging</span>
           </label>
           <input type="checkbox" id="setting-pax-count" class="settings-toggle">
+        </div>
+        <div class="settings-item">
+          <label for="setting-last-log">
+            <span class="settings-label">Show last log</span>
+            <span class="settings-description">Show most recent entry on Log screen</span>
+          </label>
+          <input type="checkbox" id="setting-last-log" class="settings-toggle">
         </div>
       </div>
       <footer id="credit">
