@@ -5,7 +5,7 @@
     --btn-primary: #007bff;
     --btn-primary-hover: #0056b3;
     --btn-danger: #dc3545;
-    --btn-danger-hover: #c82333;
+    --btn-danger-hover: rgb(200, 35, 51);
     --btn-secondary: #6c757d;
     --text: #333333;
     --text-light: #666666;
@@ -182,21 +182,7 @@ main {
 
 .location-btn-split .split-left:hover,
 .location-btn-split .split-right:hover {
-    /* border-color: var(--merc-accent);
-    border-width: 4px 4px 4px 0;
-    border-style: solid;
-    border-radius: 0 12px 12px 0; 
-    background: #007BFF; */
-/* background: linear-gradient(90deg, rgba(0, 123, 255, 1) 0%, rgba(237, 100, 49, 1) 100%); */
     background: rgba(0, 0, 0, .3);
-}
-
-.location-btn-split .split-left:hover {
-    /* border-color: var(--merc-accent);
-    border-width: 4px 0 4px 4px;
-    border-style: solid;
-    border-radius: 12px 0 0 12px;  */
-    /* background: linear-gradient(270deg, rgba(0, 123, 255, 1) 0%, rgba(237, 100, 49, 1) 100%); */
 }
 
 .location-btn-split .split-label {
@@ -226,8 +212,8 @@ main {
     background: #5a6268;
 }
 
-/* Manual entry card overlay */
-.manual-card-overlay {
+/* Overlay */
+.overlay {
     display: none;
     position: fixed;
     inset: 0;
@@ -238,11 +224,11 @@ main {
     padding: 1rem;
 }
 
-.manual-card-overlay.show {
+.overlay.show {
     display: flex;
 }
 
-.manual-card {
+.overlay-card {
     background: var(--bg-card);
     border-radius: 12px;
     padding: 1.5rem;
@@ -251,13 +237,13 @@ main {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
-.manual-card h2 {
+.overlay-card h2 {
     margin: 0 0 1rem 0;
     font-size: 1.25rem;
     color: var(--text);
 }
 
-.manual-card input {
+.overlay-card input {
     width: 100%;
     padding: 1rem;
     font-size: 1.2rem;
@@ -267,18 +253,18 @@ main {
     margin-bottom: 1rem;
 }
 
-.manual-card input:focus {
+.overlay-card input:focus {
     outline: none;
     border-color: var(--btn-primary);
 }
 
-.manual-card-actions {
+.overlay-card-actions {
     display: flex;
     gap: 0.5rem;
     justify-content: flex-end;
 }
 
-.manual-card-actions button {
+.overlay-card-actions button {
     padding: 0.75rem 1.5rem;
     font-size: 1rem;
     font-family: var(--font);
@@ -287,102 +273,28 @@ main {
     cursor: pointer;
 }
 
-.manual-card-cancel {
+.overlay-card-cancel {
     background: var(--bg);
     color: var(--text);
 }
 
-.manual-card-cancel:hover {
+.overlay-card-cancel:hover {
     background: var(--border);
 }
 
-.manual-card-submit {
+.overlay-card-submit {
     background: var(--btn-primary);
     color: white;
 }
 
-.manual-card-submit:hover {
+.overlay-card-submit:hover {
     background: var(--btn-primary-hover);
 }
 
 /* Passenger count card overlay */
-.pax-card-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-}
-
-.pax-card-overlay.show {
-    display: flex;
-}
-
-.pax-card {
-    background: var(--bg-card);
-    border-radius: 12px;
-    padding: 1.5rem;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.pax-card h2 {
-    margin: 0 0 1rem 0;
-    font-size: 1.25rem;
-    color: var(--text);
-}
 
 .pax-card input {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1.5rem;
-    font-family: var(--font);
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    margin-bottom: 1rem;
     text-align: center;
-}
-
-.pax-card input:focus {
-    outline: none;
-    border-color: var(--btn-primary);
-}
-
-.pax-card-actions {
-    display: flex;
-    gap: 0.5rem;
-    justify-content: flex-end;
-}
-
-.pax-card-actions button {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    font-family: var(--font);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.pax-card-cancel {
-    background: var(--bg);
-    color: var(--text);
-}
-
-.pax-card-cancel:hover {
-    background: var(--border);
-}
-
-.pax-card-submit {
-    background: var(--btn-primary);
-    color: white;
-}
-
-.pax-card-submit:hover {
-    background: var(--btn-primary-hover);
 }
 
 .empty-state {
@@ -416,22 +328,6 @@ main {
 #manage-screen .add-form input:focus {
     outline: none;
     border-color: var(--btn-primary);
-}
-
-#manage-screen .add-form button {
-    padding: 1rem 1.5rem;
-    font-size: 1.2rem;
-    font-family: var(--font);
-    background: var(--success);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-#manage-screen .add-form button:hover {
-    background: #218838;
 }
 
 .manage-list {
@@ -529,6 +425,10 @@ main {
     color: white;
 }
 
+#log-screen .clear-btn:hover {
+    background: var(--btn-danger-hover);
+}
+
 #log-screen .export-btn {
     flex: 1;
     background: var(--btn-primary);
@@ -537,10 +437,6 @@ main {
 
 #log-screen .export-btn:hover {
     background: var(--btn-primary-hover);
-}
-
-#log-screen .clear-btn:hover {
-    background: var(--btn-danger-hover);
 }
 
 .log-list {
@@ -679,7 +575,9 @@ main {
     opacity: 1;
 }
 
-/* Desktop styles */
+
+/* ============ Desktop ============ */
+
 @media (min-width: 768px) {
     main {
     max-width: 600px;
@@ -690,5 +588,234 @@ main {
     #main-screen .locations-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+
+/* ============ Dark Mode ============ */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #000000;
+        --bg-card: #2e2e2e;
+        --btn-primary: #ff0000;
+        --btn-primary-hover: #ba0000;
+        --btn-danger: var(--btn-primary);
+        --btn-danger-hover: #c82333;
+        --btn-secondary: #6c757d;
+        --text: #c40000;
+        --text-light: #590000;
+        --border: #1f1f1f;
+        --success: #28a745;
+        --attention: rgb(255, 221, 0);
+        --font: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        --merc-accent: #ED6431; 
+        --merc-dark: #2e4256;
+    }
+
+/* Navigatoion */
+    
+    nav {
+        background: transparent;
+        border-bottom: 1px solid var(--border);
+    }
+    
+    nav button {
+        background: transparent;
+        border-bottom: 3px solid transparent;
+        color: var(--text-light);
+    }
+    
+    nav button.active {
+        color: var(--btn-primary);
+        border-bottom-color: var(--btn-primary);
+    }
+    
+    nav button:hover {
+        background: var(--bg);
+    }
+
+/* Main screen */
+
+
+    #last-log {
+        background: transparent;
+        border: 1px solid var(--border);
+    }
+
+    .location-btn.manual-btn {
+        background: transparent;
+        color: var(--btn-primary);
+        border: 1px solid var(--btn-primary);
+    }
+
+    .location-btn {
+        background: transparent;
+        color: var(--btn-primary);
+        border: 1px solid var(--btn-primary);
+    }
+    
+    .location-btn:hover {
+        background: var(--btn-primary-hover);
+    }    
+
+    .location-btn-split .split-left,
+    .location-btn-split .split-right {
+        color: var(--bg);
+        background: transparent; 
+    }
+
+    .location-btn-split .split-right {
+        background: rgba(0, 0, 0, .1);
+    }
+
+    .location-btn-split .split-label {
+        color: var(--bg);
+    }
+
+/* Manage screen */
+
+    #manage-screen .add-form input {
+        flex: 1;
+        padding: 1rem;
+        min-width: 0;
+        font-size: 1.2rem;
+        font-family: var(--font);
+        border: 2px solid var(--border);
+        border-radius: 8px;
+    }
+
+    #manage-screen .add-form input:focus {
+        outline: none;
+        border-color: var(--btn-primary);
+    }
+
+    .manage-item {
+        background: transparent;
+        border: 1px solid var(--border);
+    }
+    
+    .manage-item .reorder-btns {
+    }
+    
+    .manage-item .reorder-btns button {
+        background: var(--bg);
+        border: none;
+        color: var(--btn-danger);
+    }
+    
+    .manage-item .reorder-btns button:hover {
+        background: var(--border);
+    }
+    
+    .manage-item .reorder-btns button:disabled {
+        opacity: 0.3;
+    }
+    
+    .manage-item .location-name {
+        border: 1px solid transparent;
+        background: transparent;
+        color: var(--btn-danger);
+    }
+    
+    .manage-item .location-name:focus {
+        border-color: var(--btn-primary);
+        background: var(--btn-danger);
+        color: var(--bg);
+    }
+    
+    .manage-item .delete-btn {
+        padding: 0.75rem 1rem;
+        font-size: 1.2rem;
+        background: var(--bg);
+        color: var(--btn-danger);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+/* Logbook screen */
+
+    #log-screen .log-actions button {
+        border: 1px solid var(--btn-primary);
+        border-radius: 8px;
+        background-color: var(--bg);
+        color: var(--btn-primary);
+    }
+
+    .log-list {
+        background: var(--bg);
+    }
+    
+    .log-date {
+        color: var(--text-light);
+    }
+
+/* Settings screen */
+    
+    .settings-item {
+        background: transparent;
+        border-color: var(--btn-primary-hover);
+    }
+
+    .settings-toggle::before {
+        background-color: var(--bg);
+    }
+
+/* Utilities */
+
+    .toast {
+        background: var(--btn-danger);
+        color: var(--bg);
+    }
+
+    .overlay {
+        background: rgba(0, 0, 0, 0.85);
+    }
+
+    .overlay-card {
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--border);
+        box-shadow: 0 0 20px rgba(200, 35, 51, 0.5);
+    }
+    
+    .overlay-card h2 {
+        color: var(--text);
+    }
+    
+    .overlay-card input,
+    #manage-screen .add-form input {
+        border: 2px solid var(--btn-primary);
+        background-color: transparent;
+        color: var(--text);
+    }
+
+    .overlay-card input::placeholder,
+    #manage-screen .add-form input::placeholder {
+        color: var(--text-light);
+    }
+    
+    .overlay-card input:focus {
+        outline: none;
+        border-color: var(--btn-primary);
+    }
+    
+    .overlay-card-cancel {
+        background: var(--bg);
+        color: var(--text);
+    }
+    
+    .overlay-card-cancel:hover {
+        background: var(--border);
+    }
+    
+    .overlay-card-submit {
+        background: var(--btn-primary);
+        color: var(--bg);
+    }
+    
+    .overlay-card-submit:hover {
+        background: var(--btn-primary-hover);
     }
 }

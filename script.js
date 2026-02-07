@@ -7,6 +7,8 @@ const STORAGE_KEYS = {
 
 let locations = [];
 let locationLog = [];
+let lastLog = '';
+
 let settings = {
   SPLIT_LOG_BUTTONS: false,
   ASK_PAX_COUNT: false,
@@ -400,7 +402,7 @@ function clearLogbook() {
 function clearLastLog() {
   if (locationLog.length === 0) return;
 
-  if (confirm('Clear last log?')) {
+  if (confirm('Delete last entry?')) {
     locationLog.pop();
     saveLog();
     renderLogScreen();
@@ -483,6 +485,7 @@ function initEventListeners() {
   document.getElementById('manual-input').addEventListener('keydown', (e) => {
     if (e.key === 'Enter') {
       logManualEntry(e.target.value);
+      renderMainScreen(); // to update last log
       hideManualInput();
     } else if (e.key === 'Escape') {
       hideManualInput();
@@ -493,7 +496,7 @@ function initEventListeners() {
     const manualEntryValue =  document.getElementById('manual-input').value;
     logManualEntry(manualEntryValue);
     // addLocation(manualEntryValue);
-    renderMainScreen();
+    renderMainScreen(); // to update last log
     hideManualInput();
   });
 
@@ -564,6 +567,7 @@ function initEventListeners() {
     if (e.key === 'Enter') {
       completePaxLog(e.target.value);
       hidePaxInput();
+      renderMainScreen(); // to update last log
     } else if (e.key === 'Escape') {
       hidePaxInput();
     }
@@ -572,6 +576,7 @@ function initEventListeners() {
   document.getElementById('pax-submit-btn').addEventListener('click', () => {
     const paxValue = document.getElementById('pax-input').value;
     completePaxLog(paxValue);
+    renderMainScreen(); // to update last log
     hidePaxInput();
   });
 
