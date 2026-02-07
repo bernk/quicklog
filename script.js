@@ -402,7 +402,7 @@ function clearLogbook() {
 function clearLastLog() {
   if (locationLog.length === 0) return;
 
-  if (confirm('Clear last log?')) {
+  if (confirm('Delete last entry?')) {
     locationLog.pop();
     saveLog();
     renderLogScreen();
