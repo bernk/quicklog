@@ -251,10 +251,7 @@ function getLastLog() {
   }
   const lastLog = locationLog.at(-1);
 
-  // const element = document.getElementById('last-log');
-  // element.style.display = 'none';
-  // `${lastLog.locationDate} ${lastLog.locationTime.displayTime} ${lastLog.locationName}`;;
-  return `${lastLog.locationDate.slice(8,10)} ${lastLog.locationTime.displayTime} ${lastLog.locationName}`;
+  return `${lastLog.locationTime.displayTime} ${lastLog.locationName}`;
 }
 
 // ============ Passenger Count Popup ============
