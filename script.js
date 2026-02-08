@@ -18,6 +18,7 @@ let pendingLog = null; // Stores pending log when waiting for pax count
 
 // ============ Storage ============
 function loadLocations() {
+  console.log('loadLocations');
   try {
     const data = localStorage.getItem(STORAGE_KEYS.locations);
     locations = data ? JSON.parse(data) : [];
@@ -28,6 +29,7 @@ function loadLocations() {
 }
 
 function saveLocations() {
+  console.log('saveLocations');
   try {
     localStorage.setItem(STORAGE_KEYS.locations, JSON.stringify(locations));
   } catch (e) {
@@ -36,6 +38,7 @@ function saveLocations() {
 }
 
 function loadLog() {
+  console.log('loadLog');
   try {
     const data = localStorage.getItem(STORAGE_KEYS.log);
     locationLog = data ? JSON.parse(data) : [];
@@ -46,6 +49,7 @@ function loadLog() {
 }
 
 function saveLog() {
+  console.log('saveLog');
   try {
     localStorage.setItem(STORAGE_KEYS.log, JSON.stringify(locationLog));
   } catch (e) {
@@ -55,6 +59,7 @@ function saveLog() {
 
 // ============ Settings ============
 function loadSettings() {
+  console.log('loadSettings');
   try {
     const data = localStorage.getItem(STORAGE_KEYS.settings);
     if (data) {
@@ -67,6 +72,7 @@ function loadSettings() {
 }
 
 function saveSettings() {
+  console.log('saveSettings');
   try {
     localStorage.setItem(STORAGE_KEYS.settings, JSON.stringify(settings));
   } catch (e) {
@@ -75,6 +81,7 @@ function saveSettings() {
 }
 
 function renderSettingsScreen() {
+  console.log('renderSettingsScreen');
   const splitToggle = document.getElementById('setting-split-buttons');
   splitToggle.checked = settings.SPLIT_LOG_BUTTONS;
 
@@ -86,6 +93,7 @@ function renderSettingsScreen() {
 }
 
 function toggleSetting(key, value) {
+  console.log('toggleSetting', key, value);
   settings[key] = value;
   saveSettings();
   if (key === 'SPLIT_LOG_BUTTONS') {
@@ -95,6 +103,7 @@ function toggleSetting(key, value) {
 
 // ============ Navigation ============
 function showScreen(screenId) {
+  console.log('showScreen', screenId);
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
 
@@ -110,7 +119,7 @@ function showScreen(screenId) {
 
 // ============ Log Screen ============
 function renderMainScreen() {
-  console.log('renderMainScreen()');
+  console.log('renderMainScreen');
 
   const log = document.getElementById('last-log');
   log.textContent = '';
@@ -156,6 +165,7 @@ function renderMainScreen() {
 }
 
 function logLocation(locationIndex, action) {
+  console.log('logLocation', locationIndex, action);
   const location = locations[locationIndex];
   if (!location) return;
 
@@ -204,6 +214,7 @@ function logLocation(locationIndex, action) {
 }
 
 function logManualEntry(name) {
+  console.log('logManualEntry', name);
   const trimmed = name.trim();
   if (!trimmed) return;
 
@@ -233,6 +244,7 @@ function logManualEntry(name) {
 }
 
 function showManualInput() {
+  console.log('showManualInput');
   const overlay = document.getElementById('manual-card-overlay');
   const input = document.getElementById('manual-input');
   overlay.classList.add('show');
@@ -241,11 +253,13 @@ function showManualInput() {
 }
 
 function hideManualInput() {
+  console.log('hideManualInput');
   const overlay = document.getElementById('manual-card-overlay');
   overlay.classList.remove('show');
 }
 
 function getLastLog() {
+  console.log('getLastLog');
   if (locationLog.length === 0) {
     return;
   }
@@ -256,6 +270,7 @@ function getLastLog() {
 
 // ============ Passenger Count Popup ============
 function showPaxInput(action) {
+  console.log('showPaxInput', action);
   const overlay = document.getElementById('pax-card-overlay');
   const input = document.getElementById('pax-input');
   const heading = document.getElementById('pax-card-heading');
@@ -275,12 +290,14 @@ function showPaxInput(action) {
 }
 
 function hidePaxInput() {
+  console.log('hidePaxInput');
   const overlay = document.getElementById('pax-card-overlay');
   overlay.classList.remove('show');
   pendingLog = null;
 }
 
 function completePaxLog(paxCount) {
+  console.log('completePaxLog', paxCount);
   if (!pendingLog) return;
 
   const count = parseInt(paxCount, 10) || 0;
@@ -302,6 +319,7 @@ function completePaxLog(paxCount) {
 
 // ============ Quick Logs Screen ============
 function renderManageScreen() {
+  console.log('renderManageScreen');
   const list = document.getElementById('manage-list');
   const empty = document.getElementById('manage-empty');
 
@@ -327,6 +345,7 @@ function renderManageScreen() {
 }
 
 function addLocation(name) {
+  console.log('addLocation', name);
   const trimmed = name.trim();
   if (!trimmed) return;
 
@@ -336,6 +355,7 @@ function addLocation(name) {
 }
 
 function deleteLocation(index) {
+  console.log('deleteLocation', index);
   if (index < 0 || index >= locations.length) return;
 
   const name = locations[index];
@@ -347,6 +367,7 @@ function deleteLocation(index) {
 }
 
 function renameLocation(index, newName) {
+  console.log('renameLocation', index, newName);
   const trimmed = newName.trim();
   if (!trimmed || index < 0 || index >= locations.length) return;
 
@@ -355,6 +376,7 @@ function renameLocation(index, newName) {
 }
 
 function moveLocation(index, direction) {
+  console.log('moveLocation', index, direction);
   const newIndex = index + direction;
   if (newIndex < 0 || newIndex >= locations.length) return;
 
@@ -365,6 +387,7 @@ function moveLocation(index, direction) {
 
 // ============ Logbook Screen ============
 function renderLogScreen() {
+  console.log('renderLogScreen');
   const list = document.getElementById('log-list');
   const empty = document.getElementById('log-empty');
 
@@ -387,6 +410,7 @@ function renderLogScreen() {
 }
 
 function clearLogbook() {
+  console.log('clearLogbook');
   if (locationLog.length === 0) return;
 
   if (confirm('Clear all logs?')) {
@@ -397,6 +421,7 @@ function clearLogbook() {
 }
 
 function clearLastLog() {
+  console.log('clearLastLog');
   if (locationLog.length === 0) return;
 
   if (confirm('Delete last entry?')) {
@@ -407,6 +432,7 @@ function clearLastLog() {
 }
 
 function exportLogbook() {
+  console.log('exportLogbook');
   if (locationLog.length === 0) return;
 
   const logbookString = locationLog.map(entry => 
@@ -419,6 +445,7 @@ function exportLogbook() {
 
 // ============ Toast ============
 function showToast(message) {
+  console.log('showToast', message);
   const toast = document.getElementById('toast');
   toast.textContent = message;
   toast.classList.add('show');
@@ -430,12 +457,14 @@ function showToast(message) {
 
 // ============ Utilities ============
 function escapeHtml(str) {
+  console.log('escapeHtml', str);
   const div = document.createElement('div');
   div.textContent = str;
   return div.innerHTML;
 }
 
 function roundTime(hours, minutes) {
+  console.log('roundTime', hours, minutes);
   // Takes two integers
   const totalMinutes = hours * 60 + minutes;
   const rounded = Math.round(totalMinutes / 5) * 5;
@@ -446,6 +475,7 @@ function roundTime(hours, minutes) {
 
 // ============ Event Listeners ============
 function initEventListeners() {
+  console.log('initEventListeners');
   // Navigation
   document.querySelector('nav').addEventListener('click', (e) => {
     if (e.target.matches('button[data-screen]')) {
@@ -590,6 +620,7 @@ function initEventListeners() {
 
 // ============ Init ============
 function init() {
+  console.log('init');
   loadLocations();
   loadLog();
   loadSettings();
