@@ -605,7 +605,7 @@ main {
         --btn-danger-hover: #c82333;
         --btn-secondary: #6c757d;
         --text: #c40000;
-        --text-light: #590000;
+        --text-light: #8b0000;
         --border: #1f1f1f;
         --success: #28a745;
         --attention: rgb(255, 221, 0);
@@ -658,7 +658,13 @@ main {
     
     .location-btn:hover {
         background: var(--btn-primary-hover);
-    }    
+    }
+
+    .location-btn-split {
+        background: transparent;
+        color: var(--btn-primary);
+        border: 1px solid var(--btn-primary);
+    }
 
     .location-btn-split .split-left,
     .location-btn-split .split-right {
@@ -667,11 +673,11 @@ main {
     }
 
     .location-btn-split .split-right {
-        background: rgba(0, 0, 0, .1);
+        background: rgba(255, 0, 0, 0.15);
     }
 
     .location-btn-split .split-label {
-        color: var(--bg);
+        color: var(--btn-primary);
     }
 
 /* Manage screen */
