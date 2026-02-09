@@ -400,13 +400,16 @@ function renderLogScreen() {
   list.style.display = '';
   empty.style.display = 'none';
 
-  list.innerHTML = locationLog.toReversed().map(entry => `
-    <div class='log-list-entry'>
+  const reversed = locationLog.toReversed();
+  list.innerHTML = reversed.map((entry, i) => {
+    const isNewDay = i > 0 && entry.locationDate !== reversed[i - 1].locationDate;
+    return `
+    <div class='log-list-entry${isNewDay ? ' new-day' : ''}'>
         <span class='log-date'>${escapeHtml(entry.locationDate.slice(8,10))}</span>
         <span class='log-time'>${escapeHtml(entry.locationTime.displayTime)}</span>
         <span class='log-name'>${escapeHtml(entry.locationName)}</span>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function clearLogbook() {

@@ -465,6 +465,11 @@ main {
     border-bottom: none;
 }
 
+.log-list .log-list-entry.new-day {
+    /* border-top: 1px solid var(--border); */
+    margin-top: 2rem;
+}
+
 /* Settings screen */
 .settings-list {
     display: flex;
